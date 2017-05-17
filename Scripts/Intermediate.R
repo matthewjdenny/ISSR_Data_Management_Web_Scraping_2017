@@ -1,21 +1,25 @@
-###### Intermediate R Workshop, 5/23/16, contact mdenny@psu.edu #####
+###### Intermediate R Workshop: Programming #####
 
 
-###### Preliminaries -- Setting Up R To Do Work ######
+### Preliminaries ###
 
-# Clear your workspace -- This gets rid of all of the information that was there when you started to you have a clean slate.
 rm(list = ls())
 
-# Set your working directory -- This is where R goes to look for files and save stuff by default. You will need to do this for each computer you run your script file on. In RStudio, you can go to Session -> Set Working Directory -> Choose Directory and select a folder from a drop down menu. For me, this looks like:
-setwd("~/Dropbox/RA_and_Consulting_Work/ISSR_Data_Management_in_R_2016")
+# Set your working directory to the workshop repo location. For me, this looks
+# like:
+setwd("~/Documents/RA_and_Consulting_Work/ISSR_Data_Management_Web_Scraping_2017")
 
-###### cat vs. print ######
 
-# the cat function will print things without "" marks around them, which often looks nicer, but it also does not skip to a new line if you call it multiple times inside of a function (something we will get to soon) or a loop. Lets try out both:
+### cat vs. print ###
+
+# The 'cat()' function will print things without "" marks around them, which
+# often looks nicer, but it also does not skip to a new line if you call it
+# multiple times inside of a function (something we will get to soon), or a
+# loop. Lets try out both:
 print("Hello World")
 cat("Hello World")
 
-# now we can try them inside bracketts to see how cat does not break lines:
+# Now we can try them inside bracketts to see how 'cat()' does not break lines:
 {
     cat("Hello")
     cat("World")
@@ -26,36 +30,51 @@ cat("Hello World")
     print("World")
 }
 
-# so we have to manually break lines with cat() using the "\n" or newline symbol
+# So we have to manually break lines with 'cat()' using the "\n" (newline)
+# symbol:
 {
-cat("Hello \n")
-cat("World")
+    cat("Hello \n")
+    cat("World")
 }
 
-###### The paste function and making informative messages ######
 
-#the paste function takes as many string, number or variable arguments as you want and sticks them all together using a user specified separator:
+### The 'paste()' function, and generating informative messages ###
 
-# lets define a variable to hold the number of fingers we have:
+# The 'paste()' function takes as many string, number or variable arguments as
+# you want and sticks them all together using a user specified separator:
+
+# Lets define a variable to hold the number of fingers we have:
 fingers <- 8
-#now lets print out how many fingers we have:
-print(paste("Hello,", "I have", fingers, "Fingers", sep = " "))
-#now lets separate with dashes just for fun:
 
-print(paste("Hello,", "I have", fingers, "Fingers", sep = "-----"))
+# Now lets print out how many fingers we have:
+print(paste("Hello,", "I have", fingers, "fingers", sep = " "))
 
-#now lets try the same thing with cat
-cat(paste("Hello,", "I have", fingers, "Fingers", sep = " "))
-#however, with cat, I can just skip the paste part and it will print the stuff directly
+# Now lets separate with dashes just for fun:
+print(paste("Hello,", "I have", fingers, "fingers", sep = "-----"))
+
+# We can also try the same thing with 'cat()':
+cat(paste("Hello,", "I have", fingers, "fingers", sep = " "))
+
+# However, with 'cat()', we can just skip the paste part and it will print the
+# stuff directly:
 cat("Hello,", "I have", fingers, "Fingers", sep = " ")
 
-#if we want cat to break lines while it is printing, we can also include the "\n" symbol at the end (or anywhere for that matter)
-cat("My Grocery List:\n", "1 dozen eggs\n","1 loaf of bread\n 1 bottle of orange juice\n", "1 pint mass mocha", sep = " ")
+# If we want 'cat()' to break lines while it is printing, we can also include
+# the "\n" symbol at the end (or anywhere, for that matter):
+cat("My Grocery List:\n", "1 dozen eggs\n",
+    "1 loaf of bread\n 1 bottle of orange juice\n",
+    "1 pint mass mocha", sep = " ")
 
-###### For Loops ######
 
-#this is a way to automate performing tasks my telling R how many times you want to do something. Along with conditional statments and comparison operators, loops are more powerful than you can immagine. Pretty much everything on your computer can be boiled down to a combinations of these.
+### For Loops ###
 
+# 'for()' loops are a way to automate performing tasks by telling R how many
+# times we want to do something. Along with conditional statments and comparison
+# operators, loops are more powerful than you can immagine. Pretty much
+# everything on your computer can be boiled down to a combinations of loops and
+# conditionals.
+
+# Here is an example 'for()' loop, with its english translation:
 # for (           i in           1:10){
 # for each number i in the range 1:10
 
