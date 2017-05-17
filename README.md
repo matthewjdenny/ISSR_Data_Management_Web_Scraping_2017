@@ -45,7 +45,7 @@ To make things easier, I have created a video tutorial that will walk you throug
 
 1. **9:00-10:00** We will go over high level materials including downloading and installing R, setting up RStudio and Github, and good project management habits. Follow-up materials: [**[R Power User Tutorial]**](http://www.mjdenny.com/Data_Science_Tools.html) 
 2. **10:00-10:10** Break
-3. **10:10-12:00** Introduction to R programming. [**[Script Here]**](https://github.com/matthewjdenny/ISSR_Data_Management_Web_Scraping_2017/blob/master/Scripts/Intro.R)
+3. **10:10-12:00** Introduction to R programming. [**[Script Here]**](https://github.com/matthewjdenny/ISSR_Data_Management_Web_Scraping_2017/blob/master/Scripts/Intro_to_R.R)
 4. **12:00-1:00** Lunch
 5. **1:00-3:00** More R programming -- functions, conditionals and lots of looping. [**[Script Here]**](https://github.com/matthewjdenny/ISSR_Data_Management_Web_Scraping_2017/blob/master/Scripts/Intermediate.R), [**[Additional Materials Here]**](https://github.com/matthewjdenny/ISSR_Data_Management_Web_Scraping_2017/blob/master/Handouts/Intermediate_R.pdf)
 6. Overview of materials for today: [**[R Tutorial]**](http://www.mjdenny.com/R_Tutorial.html) 
