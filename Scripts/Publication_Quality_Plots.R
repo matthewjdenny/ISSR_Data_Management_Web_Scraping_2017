@@ -1,6 +1,5 @@
-# publication quality graphics (5/24/16)
-# Matthew J. Denny
-# email mdenny@psu.edu with questions or comments
+##### Generating Publication Quality Graphics #####
+
 
 # In this script, I will provide several examples and seek to introduce you to
 # the kinds of things one should always do to produce really clean plots for
@@ -9,29 +8,29 @@
 # publication. This is really where R shines. We will be using the base R
 # graphics and ggplot2.
 
-# install ggplot2 and gridExtra
-# install.packages("ggplot2", dependencies = TRUE)
-# install.packages("gridExtra", dependencies = TRUE)
+# Start by installing ggplot2 and gridExtra:
+install.packages("ggplot2", dependencies = TRUE)
+install.packages("gridExtra", dependencies = TRUE)
 
-# preliminaries
+# Preliminaries:
 rm(list = ls())
 library(ggplot2)
 library(gridExtra)
 
-# lets load in some "data" we will use in this tutorial
-setwd("~/Dropbox/RA_and_Consulting_Work/ISSR_Data_Management_in_R_2016/Data/")
+# Lets load in some "data" we will use in this tutorial:
+setwd("~/Documents/RA_and_Consulting_Work/ISSR_Data_Management_Web_Scraping_2017/Data")
 load("LaCour_Data.Rdata")
 load("Influence_Data.Rdata")
 load("Influence_Data_2.Rdata")
 
-# now set the working directory where we would like to save plots
+# Now lets set the working directory where we would like to save our plots:
 setwd("~/Desktop")
 
-# this code is taken from:
+# This code is taken from:
 # https://stanford.edu/~dbroock/broockman_kalla_aronow_lg_irregularities.pdf
 # page 5.
 
-# start by subsetting the data
+# Start by subsetting the data:
 lacour.therm.study1 <- subset(LaCour_Data,
                               wave == 1 & STUDY == "Study 1")$Therm_Level
 
@@ -41,9 +40,9 @@ hist(lacour.therm.study1,
      xlab = "Feeling Thermometer",
      main = "LaCour (2014) Study 1, Baseline")
 
-# what can we improve?
+# What can we improve?
 
-# one thing we could do would be to color the bars. However the base colors in R
+# One thing we could do would be to color the bars. However the base colors in R
 # are not always the prettiest, fortunately, we can create our own! I did this
 # using the color pallette available on this website:
 # http://www.umass.edu/webdev/tools_colors.html
@@ -52,9 +51,9 @@ hist(lacour.therm.study1,
 # following into our console:
 ?rgb()
 
-# to convert hex to rgb we can use: http://hex.colorrrs.com/
+# To convert hex to rgb we can use: http://hex.colorrrs.com/
 
-# now lets give it a try
+# Now lets give it a try:
 UMASS_BLUE <- rgb(51,51,153,195,maxColorValue = 255)
 UMASS_RED <- rgb(153,0,51,195,maxColorValue = 255)
 UMASS_GREEN <- rgb(0,102,102,195,maxColorValue = 255)
@@ -63,7 +62,7 @@ UMASS_ORANGE <- rgb(255,204,51,195,maxColorValue = 255)
 UMASS_PURPLE <- rgb(65,39,59,195,maxColorValue = 255)
 UMASS_BROWN <- rgb(148,121,93,195,maxColorValue = 255)
 
-# now lets try to fill in some additional parameters. We can start to do this by
+# Now lets try to fill in some additional parameters. We can start to do this by
 # looking at the documentation available by typing in:
 ?hist()
 
@@ -76,7 +75,7 @@ hist(lacour.therm.study1,
      col = UMASS_BLUE,
      ylim = c(0,2000))
 
-# my preffered way of exporting plots for inclusion in a LaTeX document is as a
+# My preffered way of exporting plots for inclusion in a LaTeX document is as a
 # pdf. We can do this as follows:
 pdf(file = "Example_Histogram.pdf",
     height = 4,
@@ -90,9 +89,9 @@ hist(lacour.therm.study1,
      ylim = c(0,2000))
 dev.off() # ends the plot
 
-# the key here is to get the dimensions correct.
+# The key here is to get the dimensions correct.
 
-# lets try another example from a paper I wrote:
+# Lets try another example from a paper I wrote:
 # http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2465309
 
 plot(x = data$Congress, y = data$Floor_Amendments)
