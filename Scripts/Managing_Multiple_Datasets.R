@@ -1,34 +1,39 @@
-# Managing multiple datasets
-# Matthew Denny, mdenny@psu.edu, 5/18/16
+###### Managing Multiple Datasets #####
 
-# some preliminaries
+# Some preliminaries:
 rm(list = ls())
 
-# you will need to set this to the location of th folder you downloaded for this
-# workshop
-setwd("~/Dropbox/RA_and_Consulting_Work/ISSR_Data_Management_in_R_2016/Data")
+# Set your working directory to the workshop repo location. For me, this looks
+# like:
+setwd("~/Documents/RA_and_Consulting_Work/ISSR_Data_Management_Web_Scraping_2017/Data")
 
-# We are going to be looking at a dataset that comprises 11 sessions on congress
-# and sepcifically the bills cosponsored by senators over that period of time.
-# This is a very complex data management problem.
+# We are going to be looking at a dataset that comprises 11 sessions of Congress
+# and specifically the bills cosponsored by Senators over that period of time.
+# This is a very complex data management problem:
 Congresses <- 11
 
 
-# lets begin by loading in some data:
+# Lets begin by loading in some data:
 cat("Loading Raw Senate Cosponsorship Matrix Data... \n")
 
-# create a list object to store the data in
+# Create a list object to store the data in
 cosponsorship_data <- vector(mode = "list",
                              length = Congresses)
 
-# loop over sessions of Congress
+# Loop over sessions of Congress:
 for (i in 1:Congresses) {
+    # The files are indexed from 100 to 110, so we need to create a temporary
+    # variable that we can use to load in the files:
     cur <- 99 + i
     cat("Currently working on congress:",cur,"\n")
+
+    # Read in the current dataset:
     temp <- read.csv(paste(cur,"_senmatrix.txt", sep = ""),
                      stringsAsFactors = F,
-                     header = F)
-    # we are only going to look at the first 100 bills from each congress
+                     header = F) # there are no column names in the raw data.
+
+    # We are only going to look at the first 100 bills from each Congress to
+    # save time. Alternatively, we could look at all of them:
     temp <- temp[,1:100]
     cosponsorship_data[[i]] <- list(raw_data = temp)
 }
@@ -36,53 +41,58 @@ for (i in 1:Congresses) {
 
 cat("Transforming Raw data into Cosponsorship Matrices...\n")
 
-# loop over sessions of congress
+# Loop over sessions of Congress:
 for (i in 1:Congresses) {
     cur <- 99 + i
-    # let the user know what iteration we are on:
+    # Let the user know what iteration we are on:
     cat("Currently on Congress number: ",cur,"\n")
 
-    # extract the raw data so we can use it
+    # Extract the raw data so we can use it:
     temp <- cosponsorship_data[[i]]$raw_data
 
-    #create a sociomatrix to populate
+    # Create a sociomatrix to populate. Each entry in this matrix will record
+    # the number of times Senator i cosponsored a bill introduced by Senator j.
     num_senators <- length(temp[,1])
     temp_sociomatrix <- matrix(0,
                                ncol = num_senators,
                                nrow = num_senators)
 
-    # this is an example of nested looping
-    for (j in 1:length(temp[1,])) {#for every bill
+    # This is an example of nested looping:
+    for (j in 1:ncol(temp)) { # For every bill:
 
-        #find out who the bill sponsor is (coded as a 1)
-        for (k in 1: length(temp[,1])) { #for every Senator
+        # Find out who the bill sponsor is (coded as a 1):
+        for (k in 1:length(temp[,1])) { # For every Senator:
             if (temp[k,j] == 1) {
                 sponsor <- k
             }
         }
 
-        #find all of the cosponsors
-        for (k in 1:length(temp[,1])) { #for every Senator
+        # Find all of the cosponsors:
+        for (k in 1:length(temp[,1])) { # For every Senator
             if (temp[k,j] == 2) {
                 temp_sociomatrix[sponsor,k] <- temp_sociomatrix[sponsor,k] + 1
             }
         }
     }
 
-   # store the processed sociomatrix in a new field
+   # Store the sociomatrix in a new field:
    cosponsorship_data[[i]]$sociomatrix <- temp_sociomatrix
 
 }
 
-# give the list object descriptive names
+# Give the entries in the list object descriptive names:
 names(cosponsorship_data) <- paste("Congress",100:110,sep = "_")
 
-# function that counts the total number of cosponsorships in a given congress.
+# Function that counts the total number of multiple cosponsorships (where
+# Senator i cosponsors a bill introduced by Senator j more than once) in a given
+# Congress.
 Multiple_Cosponsorships <- function(cosponsorship_matrix){
     total <- 0
-    for (i in 1:length(cosponsorship_matrix[1,])) {
-        for (j in 1:length(cosponsorship_matrix[,1])) {
-            # only add if the value is greater than 1
+    # Loop over rows:
+    for (i in 1:nrow(cosponsorship_matrix)) {
+        # Loop over columns:
+        for (j in 1:ncol(cosponsorship_matrix)) {
+            # Only increment total if the value is greater than 1:
             if (cosponsorship_matrix[j,i] > 1) {
                 total <- total + 1
             }
@@ -91,25 +101,35 @@ Multiple_Cosponsorships <- function(cosponsorship_matrix){
     return(total)
 }
 
-# try it out
+# Try out our 'Multiple_Cosponsorships()' function:
 Multiple_Cosponsorships(cosponsorship_data[[1]]$sociomatrix)
 
-# 4. We can use functions inside of functions as well.
+# We can use functions inside of functions as well:
 Multiple_Cosponsorships_per_Congress <- function(data){
+    # Get the total number of Congresses:
     num_congs <- length(data)
+
+    # Allocate a vector of zeros to store our results:
     counts <- rep(0, times = num_congs)
+
+    # Loop over sessions of Congress:
     for (i in 1:num_congs) {
         cur <- 99 + i
         cat("Currently on Congress Number: ", cur ,"\n")
+
+        # Get the number of multiple cosponsorships for this session of
+        # Congress:
         counts[i] <- Multiple_Cosponsorships(data[[i]]$sociomatrix)
     }
+
+    # Return the results:
     return(counts)
 }
 
-# try it out
+# Try out our 'Multiple_Cosponsorships_per_Congress()' function:
 Mult_Cosp_per_Congress <- Multiple_Cosponsorships_per_Congress(cosponsorship_data)
 
-# plot our work
+# Plot our work
 barplot(Mult_Cosp_per_Congress,
         xlab = "Congress",
         ylab = "Number of Multiple Cosponsorships",
@@ -117,34 +137,45 @@ barplot(Mult_Cosp_per_Congress,
         col = rainbow(11))
 
 
-# 5. try loading in our functions from a source file (you will need to change the
-# path on your computer)
-source("~/Dropbox/RA_and_Consulting_Work/ISSR_Data_Management_in_R_2016/Scripts/My_Functions.R")
+# We can also try loading in our functions from a source file (you will need to
+# change the path on your computer):
+source("~/Documents/RA_and_Consulting_Work/ISSR_Data_Management_Web_Scraping_2017/Scripts/My_Functions.R")
 
-# test them out
+# Lets test these functions out:
 Threshold_103 <- Threshold(1,cosponsorship_data$Congress_103$sociomatrix)
 RowSums_103 <- Row_Sums(cosponsorship_data$Congress_103$sociomatrix)
 
-#6.5 having some fun
+# Now we can have some fun by creating some network plots of each sociomatrix:
+install.packages("statnet", dependencies = TRUE)
 library(statnet)
 
+# Here we are going to set some variables that we will use in plotting:
 par(mfrow = c(1,1))
 colors <- 1:11
-years <- 100:110
+years <- 1:11
 
+# We are going to define a function that takes a year and a color and makes a
+# network plot
 netplot <- function(year, color){
-    net <- as.network(cosponsorship_data[[1]]$sociomatrix)
-    plot(net, vertex.col = color)
-    Sys.sleep(.5)
 
+    # create an objet of class "network" that can be used by statnet to generate
+    # a network plot:
+    net <- as.network(cosponsorship_data[[year]]$sociomatrix)
+
+    # When we give 'plot()' a network object, it returns a network plot:
+    plot(net, vertex.col = color)
+
+    # Wait for one second after plotting before moving on:
+    Sys.sleep(1)
+
+    # This function does not return anything.
 }
 
-mapply(netplot, years, colors)
-
-
-
-
-
-
-
-
+# Now we are going to use a new kind of function we have not encountered before.
+# It is part of the 'apply()' family of functions. The first argument is the
+# function we want to "apply" to a bunch of different datasets. All arguments
+# after this are given in the order that they are provided to the 'netplot()'
+# function. This will make more sense if we try it out:
+mapply(netplot,
+       years,
+       colors)
