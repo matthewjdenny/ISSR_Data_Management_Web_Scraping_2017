@@ -1,8 +1,11 @@
 # ISSR Data Management and Web Scraping Workshops: 2017
 
-This Git repo is home to all of the materials you will need if you are taking either or both of the following ISSR workshops from May 22-25th, 2017: Data Management in R, and/or Practical Web and Text Scraping. Welcome to the workshop!
+This Git repo is home to all of the materials you will need if you are taking either or both of the following ISSR workshops: 
 
-You can email me at <mdenny@psu.edu> or <matthewjdenny@gmail.com> with any questions. There are lots of materials available on my website at: <http://www.mjdenny.com/teaching.html>. To download the materials you see here, you will want to start by downloading a GUI client for Git. 
+* **Data Management in R** (May 22-23, 2017).
+* **Practical Web and Text Scraping** (Mat 24-25, 2017).
+
+You can email me at <mdenny@psu.edu> or <matthewjdenny@gmail.com> with any questions. There are lots of additional materials available on my website at: <http://www.mjdenny.com/teaching.html>, but you will only need to look at the stuff linked to from this page in oder to be successful in this course. To download all of the materials associated with this course, you will want to start by downloading a GUI client for Git. 
 
 * For Windows: <https://windows.github.com/>
 * For Mac: <https://mac.github.com/>
@@ -12,7 +15,7 @@ You will then want to `clone` this repo onto your computer using either the
 
     https://github.com/matthewjdenny/ISSR_Data_Management_Web_Scraping_2017.git
 
-link and your client or by clicking the "Clone in Desktop" button on the right hand side of the page. If you want to directly edit the files posted here and track your changes, you can copy individual files into another directory and create your own repo with the files in it.  We will go over using Github on the first morning of the workshop, so there is no need to spend too much time trying to figure Github out.
+link and your client or by clicking the "Clone in Desktop" button on the right hand side of the page. If you want to directly edit the files posted here and track your changes, you can copy individual files into another directory and create your own Git repo with the files in it. If you are not sure what any of the above meant, don't worry!  We will go over using Github at the beginning of the first workshop, so there is no need to spend too much time trying to figure Github out. If you are skipping the first two days, then just check out this  [**[Github pictorial]**](http://www.mjdenny.com/Data_Science_Tools.html). Welcome to the workshop!
 
 ## Data Management in R
 
@@ -32,6 +35,11 @@ Please download R and RStudio before the workshop, and if you have never used R 
 * Download RStudio: <https://www.rstudio.com/products/rstudio/download/>
 * This section of Quick R provides a basic overview of the R interface. You can navigate between pages by clicking on the links on the top left -- <http://www.statmethods.net/interface/index.html>. I still end up finding useful examples here, but do not find the website to be in the most conversational form. This is a useful starting point for basic example code, particularly for plotting and statistical tests.
 * A nice place to start learning R interactively is [Swirl](http://swirlstats.com/). Note that this is probably the best "teach yourself" option for just messing around with code, but you will want to actually get R installed on your computer to do serious work. 
+
+To make things easier, I have created a video tutorial that will walk you through installing R and RStudio on your computer. You can check it out by clicking on the video below:
+
+[![Downloading and Installing R and RStudio](https://img.youtube.com/vi/0FWXWnPuxrs/10.jpg)](https://www.youtube.com/watch?v=0FWXWnPuxrs "Click on this screenshot to watch the video! ")
+
 
 #### Monday
 
