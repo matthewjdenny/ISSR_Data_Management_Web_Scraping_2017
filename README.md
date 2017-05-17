@@ -38,7 +38,7 @@ Please download R and RStudio before the workshop, and if you have never used R 
 
 To make things easier, I have created a video tutorial that will walk you through installing R and RStudio on your computer. You can check it out by clicking on the video below:
 
-[![Downloading and Installing R and RStudio](https://img.youtube.com/vi/0FWXWnPuxrs/10.jpg)](https://www.youtube.com/watch?v=0FWXWnPuxrs "Click on this screenshot to watch the video! ")
+[![Downloading and Installing R and RStudio](https://img.youtube.com/vi/0FWXWnPuxrs/0.jpg)](https://www.youtube.com/watch?v=0FWXWnPuxrs "Click on this screenshot to watch the video! ")
 
 
 #### Monday
