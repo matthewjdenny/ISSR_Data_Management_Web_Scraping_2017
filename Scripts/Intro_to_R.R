@@ -195,7 +195,7 @@ my_second_data_frame <- my_list[[4]]
 # We make use of the 'write.csv()' function here. Make sure you do not write row
 # names, this can really mess things up as it adds an additional column and is
 # generally confusing:
-write.csv(x = data,
+write.csv(x = my_data,
           file = "school_data.csv",
           row.names = FALSE)
 
@@ -225,7 +225,7 @@ install.packages("rio", dependencies = TRUE)
 library(rio)
 
 # Write our school children data to an .xlsx file:
-export(data, "school_data.xlsx")
+export(my_data, "school_data.xlsx")
 
 # Now we can read in our data from the excel file:
 excel_school_data <- import("school_data.xlsx")
@@ -233,7 +233,7 @@ excel_school_data <- import("school_data.xlsx")
 ### Stata Data ###
 
 # Write data to a .dta file:
-export(data, "school_data.dta")
+export(my_data, "school_data.dta")
 
 # Then read it back in:
 stata_school_data <- import("school_data.dta")
@@ -247,10 +247,10 @@ stata_school_data <- import("school_data.dta")
 # back up where you left off:
 
 # Save one object:
-save(data, file = "Object.RData")
+save(my_data, file = "Object.RData")
 
 # Save just a few objects:
-save(list = c("data", "reduced_data"), file = "Two_objects.RData")
+save(list = c("my_data", "reduced_data"), file = "Two_objects.RData")
 
 # Save your whole working directory
 save(list = ls(), file = "MyData.RData")
