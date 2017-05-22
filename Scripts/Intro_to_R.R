@@ -100,7 +100,7 @@ length(my_vector)
 my_matrix <- matrix(data = c(1:25), # what gets stored in the matrix
                     ncol = 5, # the number of columns
                     nrow = 5, # the number of rows
-                    byrow = T) # how the input should be added to the matrix.
+                    byrow = TRUE) # how the input should be added to the matrix.
 
 # We can index the elements of matrices in a variety of ways:
 my_matrix[1,]
@@ -124,17 +124,17 @@ free_lunch <- rep(TRUE,times = 10)
 # turn our letter grades into factor variables (a kind of categorical variable
 # that R likes). This is just generally true (ALWAYS DO THIS). Factor variables
 # are like the dinosaurs from Jurassic Park, they refuse to die out.
-data <- data.frame(student_id,
-                   grades,
-                   class,
-                   free_lunch,
-                   stringsAsFactors = FALSE)
+my_data <- data.frame(student_id,
+                      grades,
+                      class,
+                      free_lunch,
+                      stringsAsFactors = FALSE)
 
 # We can set column names if we like:
-colnames(data) <- c("Student_ID", "Grades","Class","Free_Lunch")
+colnames(my_data) <- c("Student_ID", "Grades","Class","Free_Lunch")
 
 # We can also set row names
-rownames(data) <- LETTERS[11:20]
+rownames(my_data) <- LETTERS[11:20]
 
 
 ### Searching through data and taking subsets ###
@@ -142,36 +142,36 @@ rownames(data) <- LETTERS[11:20]
 # The 'which()' function lets us identify observations that meet a certain
 # criteria. This example also introduces the '$' operator which lets us access a
 # variable in a data frame by name:
-which(data$Grades == "A")
+which(my_data$Grades == "A")
 
 # Now we can create a new dataset that only includes A or B students by saving
 # the indexes of the A and B students and then using them to extract a subset of
 # the full data:
-A_students <- which(data$Grades == "A")
-B_students <- which(data$Grades == "B")
+A_students <- which(my_data$Grades == "A")
+B_students <- which(my_data$Grades == "B")
 students_for_reduced_dataset <- c(A_students, B_students)
 
 # We now use the vector to index only the rows we want, and extract them, saving
 # them to a new object. Note that we index by [row,column], and if we leave one
 # of these fields blank, then we take the entire row (or column).
-reduced_data <- data[students_for_reduced_dataset,]
+reduced_data <- my_data[students_for_reduced_dataset,]
 
 # When we are subsetting data, we can use the c() function to take arbitrary
 # subsets of a matrix:
-data[c(1:5,7,9),c(2,4)]
+my_data[c(1:5,7,9),c(2,4)]
 
 
 ### List Data Structures ###
 
 # To create an empty list, object, we actually use the 'vector()' function.
-my_list <- vector("list", length = 10)
+my_list <- vector(mode = "list", length = 10)
 
 # We can also create a list from objects. Not that we can name each entry in a
 # list just as we would with a data.frame:
 my_list <- list(num = 10,
                 animal = "dog",
                 vec = c(1:10),
-                dat = data)
+                dat = my_data)
 
 # We can also glue lists onto the end of other lists using the 'append()'
 # function
@@ -226,7 +226,6 @@ library(rio)
 
 # Write our school children data to an .xlsx file:
 export(data, "school_data.xlsx")
-write.xlsx(data, file = "school_data.xlsx", row.names=FALSE)
 
 # Now we can read in our data from the excel file:
 excel_school_data <- import("school_data.xlsx")
