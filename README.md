@@ -49,6 +49,8 @@ To make things easier, I have created a video tutorial that will walk you throug
 4. **12:00-1:00** Lunch
 5. **1:00-3:00** More R programming -- functions, conditionals and lots of looping. [**[Script Here]**](https://github.com/matthewjdenny/ISSR_Data_Management_Web_Scraping_2017/blob/master/Scripts/Intermediate_R.R), [**[Additional Materials Here]**](https://github.com/matthewjdenny/ISSR_Data_Management_Web_Scraping_2017/blob/master/Handouts/Intermediate_R.pdf)
 6. Overview of materials for today: [**[R Tutorial]**](http://www.mjdenny.com/R_Tutorial.html) 
+7. **Homework** First Homework assignment. [**[Script Here]**](https://github.com/matthewjdenny/ISSR_Data_Management_Web_Scraping_2017/blob/master/Scripts/R_Programming_Assignment_1.R)
+
 
 #### Tuesday
 
