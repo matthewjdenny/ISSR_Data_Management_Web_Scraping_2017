@@ -9,7 +9,6 @@ rm(list = ls())
 # like:
 setwd("~/Documents/RA_and_Consulting_Work/ISSR_Data_Management_Web_Scraping_2017")
 
-
 ### cat vs. print ###
 
 # The 'cat()' function will print things without "" marks around them, which
@@ -84,13 +83,15 @@ my_vector <- c(20:30)
 cat(my_vector)
 
 # Notice how the value of i changes when we are inside the loop
-i = 76
+i <- 76
 # Loop over each index (position) in the vector at replace it with its square
 # root:
 for (i in 1:length(my_vector)) {
     cat(i,"\n")
     my_vector[i] <- sqrt(my_vector[i])
 }
+
+
 
 # Display the result:
 cat(my_vector)
@@ -202,7 +203,8 @@ sum(my_mat[,1])
 # each one. This is where the real power of functions comes out --that we can
 # use them inside of more complex programs, even inside other functions:
 for (i in 1:10) {
-  cat(my_column_sum(i, my_mat),"\n")
+  cat(my_column_sum(col_number = i,
+                    my_matrix = my_mat),"\n")
 }
 
 # To illustrate this idea, we can now write a function that calls
