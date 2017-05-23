@@ -144,7 +144,7 @@ barplot(Mult_Cosp_per_Congress,
 
 # We can also try loading in our functions from a source file (you will need to
 # change the path on your computer):
-source("~/Documents/RA_and_Consulting_Work/ISSR_Data_Management_Web_Scraping_2017/Scripts/My_Functions.R")
+source('~/Documents/RA_and_Consulting_Work/ISSR_Data_Management_Web_Scraping_2017/Scripts/My_Functions.R')
 
 # Lets test these functions out:
 Threshold_103 <- Threshold(1,cosponsorship_data$Congress_103$sociomatrix)

@@ -45,7 +45,7 @@ hist(lacour.therm.study1,
 # One thing we could do would be to color the bars. However the base colors in R
 # are not always the prettiest, fortunately, we can create our own! I did this
 # using the color palette available on this website:
-# http://www.umass.edu/webdev/tools_colors.html
+# https://www.umass.edu/brand/elements/color
 # and I use these colors in all of my plots that allow color. To define a color
 # we will use the rgb() function. We can see how this works by typing the
 # following into our console:
@@ -105,7 +105,7 @@ plot(x = data$Congress,
 # data. Moreover, we might want to compare the trend in these data to other
 # related measures of the importance of committee leaders. A standard plot one
 # sees in many social science journals is a panel of scatter plots next to
-# each other. These scatter plots often alos include a trendine, with confidence
+# each other. These scatter plots often also include a trendine, with confidence
 # bounds. We can make one of these multipanel plots with the following bit of
 # R code. It is not super important that you actually understand what these
 # plots mean, but more that you understand how the R code that generates them
@@ -145,7 +145,7 @@ g3 <- ggplot(data , aes(x = Congress, y = Influence)) +
     xlab("Session of Congress") +
     scale_x_continuous(name = "Session of Congress",
                        breaks = 1:12,
-                       minor_breaks = waiver(),
+                       minor_breaks = NULL, # removes minor breaks
                        labels = 97:108)
 
 # Finally, we can generate the plot and save it to a .pdf:
@@ -155,7 +155,7 @@ pdf("Example_Multiple_Plot.pdf",
 
 # You can check out '?grid.arrange()' for how this works. We need to use this
 # function to arrange ggplot objects as opposed to 'par()' in base R graphics:
-grid.arrange( g1, g2, g3, ncol = 3)
+grid.arrange(g1, g2, g3, ncol = 3)
 dev.off()
 
 
