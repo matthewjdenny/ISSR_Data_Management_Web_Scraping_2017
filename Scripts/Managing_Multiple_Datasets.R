@@ -43,7 +43,7 @@ for (i in 1:Congresses) {
 }
 
 
-cat("Transforming Raw data into Cosponsorship Matrices...\n")
+cat("Transforming Raw Data Into Cosponsorship Matrices...\n")
 
 # Loop over sessions of Congress:
 for (i in 1:Congresses) {
@@ -56,7 +56,7 @@ for (i in 1:Congresses) {
 
     # Create a sociomatrix to populate. Each entry in this matrix will record
     # the number of times Senator i cosponsored a bill introduced by Senator j.
-    num_senators <- length(temp[,1])
+    num_senators <- nrow(temp)
     temp_sociomatrix <- matrix(0,
                                ncol = num_senators,
                                nrow = num_senators)
@@ -65,22 +65,22 @@ for (i in 1:Congresses) {
     for (j in 1:ncol(temp)) { # For every bill:
 
         # Find out who the bill sponsor is (coded as a 1):
-        for (k in 1:length(temp[,1])) { # For every Senator:
+        for (k in 1:nrow(temp)) { # For every Senator:
             if (temp[k,j] == 1) {
                 sponsor <- k
             }
         }
 
         # Find all of the cosponsors:
-        for (k in 1:length(temp[,1])) { # For every Senator
+        for (k in 1:nrow(temp)) { # For every Senator
             if (temp[k,j] == 2) {
-                temp_sociomatrix[sponsor,k] <- temp_sociomatrix[sponsor,k] + 1
+                temp_sociomatrix[k,sponsor] <- temp_sociomatrix[k,sponsor] + 1
             }
         }
     }
 
-   # Store the sociomatrix in a new field:
-   cosponsorship_data[[i]]$sociomatrix <- temp_sociomatrix
+    # Store the sociomatrix in a new field:
+    cosponsorship_data[[i]]$sociomatrix <- temp_sociomatrix
 
 }
 
