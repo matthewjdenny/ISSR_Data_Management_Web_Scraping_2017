@@ -32,6 +32,10 @@ for (i in 1:Congresses) {
                      stringsAsFactors = F,
                      header = F) # there are no column names in the raw data.
 
+
+    # lets set some column names using 'paste()' for fun:
+    colnames(temp) <-  paste("Bill",1:ncol(temp), sep = "_")
+
     # We are only going to look at the first 100 bills from each Congress to
     # save time. Alternatively, we could look at all of them:
     temp <- temp[,1:100]
