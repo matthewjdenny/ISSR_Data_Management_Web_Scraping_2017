@@ -91,13 +91,14 @@ names(cosponsorship_data) <- paste("Congress",100:110,sep = "_")
 # Senator i cosponsors a bill introduced by Senator j more than once) in a given
 # Congress.
 Multiple_Cosponsorships <- function(cosponsorship_matrix){
+
     total <- 0
     # Loop over rows:
     for (i in 1:nrow(cosponsorship_matrix)) {
         # Loop over columns:
         for (j in 1:ncol(cosponsorship_matrix)) {
             # Only increment total if the value is greater than 1:
-            if (cosponsorship_matrix[j,i] > 1) {
+            if (cosponsorship_matrix[i,j] > 1) {
                 total <- total + 1
             }
         }
