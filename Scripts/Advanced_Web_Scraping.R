@@ -56,11 +56,11 @@ for (i in 1:pages) {
     cat("Currently working on block",i,"of",pages,"\n")
     html <- read_html(paste("https://www.congress.gov/members?pageSize=250&page=",i,sep = ""))
     # use the tags we got off of Selectorgadget
-    web_page_results <- html_nodes(html, ".results_list a")
+    web_page_results <- html_nodes(html, ".expanded , a")
     # get member's webpages
     web_pages <- html_attr(web_page_results, "href")
     # now get the member metadata
-    metadata_results <- html_nodes(html, ".results_list")
+    metadata_results <- html_nodes(html, "#main")
     # parse this into a list with one entry per legislator
     metadata_list <- html_children(metadata_results)
 

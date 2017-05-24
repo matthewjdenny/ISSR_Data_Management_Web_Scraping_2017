@@ -125,7 +125,7 @@ get_google_scholar_results <- function(string,
     # search for the 'Scholar</a><div id="gs_ab_md">' string which occurs
     # uniquely right before google Scholar tells you how many results your
     # querry returned
-    num_results <- str_split(page,'Scholar</a><div id=\\"gs_ab_md\\">')[[1]][2]
+    num_results <- str_split(page,'<div id=\\"gs_ab_md\\">')[[1]][2]
 
     # split the resulting string on the fist time you see a "(" as this will
     # signify the end of the text string telling you how many results were
