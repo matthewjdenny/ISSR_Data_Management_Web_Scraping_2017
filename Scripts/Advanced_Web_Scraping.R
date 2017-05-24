@@ -60,7 +60,7 @@ for (i in 1:pages) {
     # get member's webpages
     web_pages <- html_attr(web_page_results, "href")
     # now get the member metadata
-    metadata_results <- html_nodes(html, "#main")
+    metadata_results <- html_nodes(html, ".expanded")
     # parse this into a list with one entry per legislator
     metadata_list <- html_children(metadata_results)
 

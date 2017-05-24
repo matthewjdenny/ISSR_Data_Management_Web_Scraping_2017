@@ -1,13 +1,11 @@
-# Introduction to Web Scraping (5/17/15)
-# Developed by Matthew J. Denny
-# email mdenny@psu.edu with questions or comments
+###### Introduction to Web Scraping #####
 
-# preliminaries
+# Preliminaries
 rm(list = ls())
-# set your working directory to some place you can find
+# Set your working directory to some place you can find
 setwd("~/Desktop")
 
-# first we will need to install the packages we plan to use for this exercise (
+# First we will need to install the packages we plan to use for this exercise (
 # if they are not already installed on your computer).
 # install.packages("httr", dependencies = TRUE)
 # install.packages("rvest", dependencies = TRUE)
@@ -15,24 +13,24 @@ setwd("~/Desktop")
 
 # httr is a package for downloading html
 library(httr)
-# a more advanced web scraping package we will use later
+# A more advanced web scraping package we will use later
 library(rvest)
-# a package for manipulating strings
+# A package for manipulating strings
 library(stringr)
 
-# lets start by downloading an example web page
+# Lets start by downloading an example web page
 url <- "http://www.mjdenny.com/Rcpp_Intro.html"
 
-# we start by using the httr package to download the source html
+# We start by using the httr package to download the source html
 page <- httr::GET(url)
 
-# as we can see, this produces a great deal of information
+# As we can see, this produces a great deal of information
 str(page)
 
-# to get at the actaul content of the page, we use the content() function
+# To get at the actual content of the page, we use the content() function:
 page_content <- httr::content(page, "text")
 
-# now lets print it out
+# Now lets print it out
 cat(page_content)
 
 # and write it to a file for easier viewing
