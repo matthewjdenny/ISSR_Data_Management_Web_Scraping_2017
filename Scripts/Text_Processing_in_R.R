@@ -2,7 +2,7 @@
 
 #0. Preliminaries
 rm(list = ls())
-setwd("~/Dropbox/RA_and_Consulting_Work/ISSR_Practical_Scraping_2016/Data")
+setwd("~/Documents/RA_and_Consulting_Work/ISSR_Data_Management_Web_Scraping_2017/Data")
 
 require(stringr)
 
@@ -15,16 +15,16 @@ second_string <- "Wow, two sentences."
 
 my_string <- paste(my_string,second_string,sep = " ")
 
-my_string_vector <- str_split(my_string, " ")[[1]]
+my_string_vector <- stringr::str_split(my_string, " ")[[1]]
 
 
-grep("\\?",my_string_vector)
+grep("(a|e)",my_string_vector)
 
-grepl("\\?",my_string_vector[1])
+grepl("\\?",my_string_vector)
 
-str_replace_all(my_string, "e","___")
+stringr::str_replace_all(my_string, " ","_")
 
-str_extract_all(my_string,"[0-9]+")[[1]]
+stringr::str_extract_all(my_string,"[0-2\\.]+")[[1]]
 
 nchar(my_string)
 
@@ -41,7 +41,7 @@ Clean_String <- function(string){
     temp <- stringr::str_split(temp, " ")[[1]]
     # Get rid of trailing "" if necessary
     indexes <- which(temp == "")
-    if(length(indexes) > 0){
+    if (length(indexes) > 0) {
         temp <- temp[-indexes]
     }
     return(temp)
@@ -109,7 +109,7 @@ clean_speech2 <- Clean_Text_Block(text2)
 # install.packages("BH",dependencies = T)
 
 # jsut make sure you saved the cpp file to the currentworking directory
-setwd("~/Dropbox/RA_and_Consulting_Work/ISSR_Practical_Scraping_2016/Scripts")
+setwd("~/Documents/RA_and_Consulting_Work/ISSR_Data_Management_Web_Scraping_2017/Scripts")
 Rcpp::sourceCpp('Generate_Document_Word_Matrix.cpp')
 
 
