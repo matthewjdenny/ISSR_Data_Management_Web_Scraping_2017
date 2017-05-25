@@ -1,6 +1,5 @@
-# Advanced Web Scraping Tutorial
-# Developed by: Matthew J. Denny
-# email: mdenny@psu.edu with questions or comments
+##### Advanced Web Scraping Tutorial #####
+
 
 # preliminaries, make sure we have the right packages downloaded
 # install.packages("rvest", dependencies = TRUE)
@@ -27,7 +26,7 @@ extract_metadata <- function(text) {
     # split on two or more spaces
     text <- str_split(text, "[\\s]{2,}")[[1]]
     # break up name to extract chamber and name
-    chamber_name <- str_split(text[3]," ")[[1]]
+    chamber_name <- str_split(text[1]," ")[[1]]
     # first is chamber
     chamber <- chamber_name[1]
     # rest is name
@@ -35,13 +34,13 @@ extract_metadata <- function(text) {
     # combine together in to a vector that can be row bound together. If the
     # member is a Senator, then district is NA.
     if(chamber == "Senator") {
-        ret <- c(name, chamber, text[5], NA , text[7], text[9])
+        ret <- c(name, chamber,text[3], text[5], NA , text[7], text[8])
     } else {
         # deal with territories that do not have districts
-        if (length(text) == 10) {
-            ret <- c(name, chamber, text[5],NA, text[7], text[9])
+        if (length(text) == 8) {
+            ret <- c(name, chamber,text[3], text[5],NA, text[7], text[8])
         } else {
-            ret <- c(name, chamber, text[5], text[7], text[9], text[11])
+            ret <- c(name, chamber,text[3], text[7], text[5], text[9], text[10])
         }
     }
     return(ret)
@@ -66,13 +65,25 @@ for (i in 1:pages) {
 
     # loop through the list to extract metadata for each legislator
     cur_metadata <- NULL
-    for (j in 1:length(metadata_list)) {
-        text <- html_text(metadata_list[[j]])
+    for (j in 1:(length(metadata_list)/3)) {
+        ind <- 3 * (j-1)+2
+        text <- paste(html_text(metadata_list[[ind]]),
+                      html_text(metadata_list[[ind+1]]), sep = "  ")
         cur_metadata <- rbind(cur_metadata,extract_metadata(text))
     }
 
+    # get relevant webpages
+    websites <- grep("https://www.congress.gov/member/",
+                     web_pages,
+                     value = TRUE)
+
+    # get every other entry since there are duplicates
+    websites <- websites[seq(from = 1,
+                             to = length(websites),
+                             length.out = length(websites)/2)]
+
     # add on web pages
-    cur_metadata <- cbind(cur_metadata,web_pages)
+    cur_metadata <- cbind(cur_metadata,websites)
 
     # add everything onto the full metadata file
     legislator_data <- rbind(legislator_data, cur_metadata)
@@ -86,10 +97,11 @@ for (i in 1:pages) {
 legislator_data <- data.frame(Name = legislator_data [,1],
                               Position = legislator_data [,2],
                               State = legislator_data [,3],
-                              District = legislator_data [,4],
-                              Party = legislator_data [,5],
+                              District = legislator_data [,5],
+                              Party = legislator_data [,4],
                               Years_of_Service = legislator_data [,6],
-                              URL = legislator_data [,7],
+                              Other_Chamber_YoS = legislator_data [,7],
+                              URL = legislator_data [,8],
                               stringsAsFactors = FALSE)
 
 # save the data
