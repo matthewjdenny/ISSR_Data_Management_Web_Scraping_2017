@@ -17,7 +17,7 @@ require(quanteda)
 # require(SpeedReader)
 
 # set working directory (you will need to change this for your computer)
-setwd("~/Dropbox/RA_and_Consulting_Work/ISSR_Practical_Scraping_2016/Data/Bill_Text")
+setwd("~/Documents/RA_and_Consulting_Work/ISSR_Data_Management_Web_Scraping_2017/Data/Bill_Text")
 
 # read in documents
 documents <- rep("", length = 100)
@@ -34,13 +34,12 @@ for (i in 1:100) {
 
 # use quanteda to create a document term matrix
 doc_term_matrix <- quanteda::dfm(documents,
-                                 toLower = TRUE,
-                                 removeNumbers = TRUE,
-                                 removePunct = TRUE,
-                                 removeSeparators = TRUE,
-                                 removeTwitter = FALSE,
-                                 stem = TRUE,
-                                 language = "english")
+                                 tolower = TRUE,
+                                 remove_numbers = TRUE,
+                                 remove_punct = TRUE,
+                                 remove_separators = TRUE,
+                                 remove_twitter = FALSE,
+                                 stem = TRUE)
 
 # look at some of the vocabulary
 head(doc_term_matrix@Dimnames$features)
