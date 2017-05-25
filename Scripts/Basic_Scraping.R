@@ -18,7 +18,7 @@ library(rvest)
 # A package for manipulating strings
 library(stringr)
 
-# Lets start by downloading an example web page
+# Lets start by downloading an example web page:
 url <- "http://www.mjdenny.com/Rcpp_Intro.html"
 
 # We start by using the httr package to download the source html
@@ -159,7 +159,7 @@ get_google_scholar_results <- function(string,
 
     # If we specified the option at the top that we wanted to return the HTML
     # source, then return it, otherwise don't.
-    if(return_source){
+    if (return_source) {
         return(page)
     }
 }
@@ -171,4 +171,4 @@ get_google_scholar_results("Laurel Smith-Doerr")
 
 get_google_scholar_results("Nilanjana dasgupta")
 
-get_google_scholar_results("Gary Becker")
+page_source <- get_google_scholar_results("Gary Becker",return_source = TRUE)
