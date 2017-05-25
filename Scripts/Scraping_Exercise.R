@@ -1,30 +1,33 @@
-# This assignment is pretty simple -- scrape the full text of 100 bills 
+# This assignment is pretty simple -- scrape the full text of 100 bills
 # introduced in the Senate in the 112th congress and count the number of unique
 # words.  Once you have done this, I encourage you to go further, look for key
-# words and try to make some cool looking output. Style points are where it is 
+# words and try to make some cool looking output. Style points are where it is
 # at!
 
 
-# Follow the template below but copy and paste all of the code into a script 
+# Follow the template below but copy and paste all of the code into a script
 # file that you push to your Github repo after completing each step.
 
 rm(list = ls())
 # load the necessary libararies
 # install.packages("httr", dependencies = TRUE)
 library(stringr)
+library(httr)
 
-# Load in the bill urls -- you may need to set your working directory or alter 
+setwd("~/Documents/RA_and_Consulting_Work/ISSR_Data_Management_Web_Scraping_2017/Data")
+
+# Load in the bill urls -- you may need to set your working directory or alter
 # the path below
-load("./Data/Bill_URLs.Rdata")
+load("Bill_URLs.Rdata")
 
-# Try visiting the webiste, you will see that these URL's are from a beta 
+# Try visiting the webiste, you will see that these URL's are from a beta
 # version. The URLs will look like:
 # http://beta.congress.gov/bill/112th-congress/senate-bill/886
 # What we actually want is something of the form:
 # https://www.congress.gov/bill/112th-congress/senate-bill/886/text?format=txt
 # we will need to loop through the text and replace the beginning "http://beta."
-# with "https://www." and then we will need to paste on "/text?format=txt" at 
-# the end of each string. 
+# with "https://www." and then we will need to paste on "/text?format=txt" at
+# the end of each string.
 
 
 
@@ -33,30 +36,30 @@ load("./Data/Bill_URLs.Rdata")
 # loop.
 
 
-# Once you have the right URLs, you will want to scrape the web pages. Lets 
+# Once you have the right URLs, you will want to scrape the web pages. Lets
 # start with a function adapted from the intermediate workshop:
 scrape_page <- function(url){
-  
+
   # Print out the input name
   cat(url, "\n")
-  
+
   # Make the input name all lowercase
   url <- tolower(url)
-  
+
   # Downloads the web page source code
   # page <- getURL(url, .opts = list(ssl.verifypeer = FALSE))
-  page <- httr::GET(str)
+  page <- httr::GET(url)
   page <- httr::content(page, "text")
-  
+
   # Split on newlines
   page <- str_split(page,'\n')[[1]]
-  
-  # Start of bill text 
+
+  # Start of bill text
   start <- grep("112th CONGRESS",page)[1]
-  
+
   # End of bill text
   end <- grep("&lt;all&gt;",page)
-  
+
   #this is a pretty complex way of ensuring that we actually found a beginning and end of the text
   if(length(end) > 0 & length(start) > 0){
     # Get just the text
@@ -64,7 +67,7 @@ scrape_page <- function(url){
     print(end)
     if(!is.na(start) & !is.na(end)){
       if(start < end & start > 0 & end > 0){
-        bill_text <- page[start:end]
+        bill_text <- page[start:(end-1)]
       }else{
         bill_text <- ""
       }
@@ -74,28 +77,25 @@ scrape_page <- function(url){
   }else{
     bill_text <- ""
   }
-  
-  
+
+
   # Save to a named list object
   to_return <- list(page = page, text = bill_text)
-  
+
   # return the list
   return(to_return)
-#for loop
-for(i in 1:10){
-  print(i)
 }
 
-# test it out, take a look at the 
-test <- scrape_page( url = "https://www.congress.gov/bill/112th-congress/senate-bill/886/text?format=txt")
+# test it out, take a look at the
+test <- scrape_page(url = "https://www.congress.gov/bill/112th-congress/senate-bill/886/text?format=txt")
 
 # Now you will need to create a list object to store the data in, and loop over
 # URLS to store the data in the list. You will probably want to save your data
-# as an .Rdata object using save() at this point. One important point is that 
+# as an .Rdata object using save() at this point. One important point is that
 # you NEED TO INCLUDE a Sys.sleep(5) in your scraping loop so you do not go too
-# fast and overwhelm the congress.gov servers. Going too fast can land you in 
-# BIG legal trouble (that is called a "denial of service attack") so jsut keep 
-# things at a reasonable pace. 
+# fast and overwhelm the congress.gov servers. Going too fast can land you in
+# BIG legal trouble (that is called a "denial of service attack") so jsut keep
+# things at a reasonable pace.
 
 
 
@@ -106,7 +106,7 @@ test <- scrape_page( url = "https://www.congress.gov/bill/112th-congress/senate-
 Clean_String <- function(string){
   # Lowercase
   temp <- tolower(string)
-  # Remove everything that is not a number or letter 
+  # Remove everything that is not a number or letter
   temp <- stringr::str_replace_all(temp,"[^a-zA-Z\\s]", " ")
   # Shrink down to just one white space
   temp <- stringr::str_replace_all(temp,"[\\s]+", " ")
@@ -120,43 +120,43 @@ Clean_String <- function(string){
   return(temp)
 }
 
-# The function above will clean one string but you have lots. You can deal with 
+# The function above will clean one string but you have lots. You can deal with
 # them by filling in the function below:
 Clean_Text_Block <- function(text){
   if(length(text) <= 1){
-    
+
     # Check to see if there is any text at all with another conditional
-    
-    # If there is , and only only one line of text then tokenize it 
-    
+
+    # If there is , and only only one line of text then tokenize it
+
   }else{
-    
+
     # Get rid of blank lines
     indexes <- which(text == "")
     if(length(indexes) > 0){
       text <- text[-indexes]
     }
-    
-    # Loop through the lines in the text and use the append() function to 
-    # add them to a vector 
-    
-    
-  # Calculate the number of tokens and unique tokens and return them in a 
-  # named list object with the tokens using something like 
+
+    # Loop through the lines in the text and use the append() function to
+    # add them to a vector
+
+
+  # Calculate the number of tokens and unique tokens and return them in a
+  # named list object with the tokens using something like
   # to_return <- list(count = my_count, ...) and then return(to_return)
-  
+
   counter <- counter +1
 }
-  
-
-# Now that we have a function to do this, we will need to loop over the 100 
-# bills and save the results into a new list object. 
 
 
+# Now that we have a function to do this, we will need to loop over the 100
+# bills and save the results into a new list object.
 
 
-# Once we have done that, it is time to add up the count variables and maybe 
-# plot them 
+
+
+# Once we have done that, it is time to add up the count variables and maybe
+# plot them
 
 
 
@@ -166,16 +166,16 @@ Clean_Text_Block <- function(text){
 # So, you finished all of that, what next? Here are some other useful things you
 # should try to do.
 
-# 1. Write a function that counts the number of times a given word appears in 
+# 1. Write a function that counts the number of times a given word appears in
 # all 100 bills.
-# 2. Take a look at the raw html for a bill and try to write a function that 
+# 2. Take a look at the raw html for a bill and try to write a function that
 # that will extract some other pieces of metadata from it (such as the date
 # it was introduced, the author, and whether it made it to the floor) and then
 # save all of that data into another dataframe.
 # 3. Generate a dataframe with two columns, the first has a word and the second
 # has the number of times it appears.
-# 4. Create an dotplot using ggplot2 showing differences in the use of some 
-# word(s) across different bills by some descriptive feature (perhaps author 
+# 4. Create an dotplot using ggplot2 showing differences in the use of some
+# word(s) across different bills by some descriptive feature (perhaps author
 # party?)
 
 
@@ -234,17 +234,17 @@ Clean_Text_Block <- function(text){
     if(length(indexes) > 0){
       text <- text[-indexes]
     }
-    # Loop through the lines in the text and use the append() function to 
+    # Loop through the lines in the text and use the append() function to
     clean_text <- Clean_String(text[1])
     for(i in 2:length(text)){
-      # add them to a vector 
+      # add them to a vector
       clean_text <- append(clean_text,Clean_String(text[i]))
     }
     num_tok <- length(clean_text)
     num_uniq <- length(unique(clean_text))
     to_return <- list(num_tokens = num_tok, unique_tokens = num_uniq, text = clean_text)
   }
-  # Calculate the number of tokens and unique tokens and return them in a 
+  # Calculate the number of tokens and unique tokens and return them in a
   # named list object.
   return(to_return)
 }
