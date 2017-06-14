@@ -54,7 +54,7 @@ To make things easier, I have created a video tutorial that will walk you throug
 
 #### Tuesday
 
-1. **9:00-11:00** Managing multiple datasets. [**[Script]**](http://www.mjdenny.com/workshops/Managing_Multiple_Datasets.R) 
+1. **9:00-11:00** Managing multiple datasets. [**[Script]**](https://github.com/matthewjdenny/ISSR_Data_Management_Web_Scraping_2017/blob/master/Scripts/Managing_Multiple_Datasets.R) 
 2. **11:00-11:10** Break.
 3. **11:10-12:00** Mini unit: producing publication quality plots and graphics  [**[Script Here]**](https://github.com/matthewjdenny/ISSR_Data_Management_Web_Scraping_2017/blob/master/Scripts/Publication_Quality_Plots.R).
 4. **12:00-1:00** Lunch  
