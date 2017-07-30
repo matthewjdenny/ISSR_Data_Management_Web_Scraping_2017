@@ -8,13 +8,11 @@ rm(list = ls())
 # preliminaries, make sure we have the right packages downloaded
 # install.packages("quanteda", dependencies = TRUE)
 # install.packages("stringr", dependencies = TRUE)
-# install.packages("devtools", dependencies = TRUE)
-# devtools::install_github("matthewjdenny/SpeedReader")
 
 # load packages
 require(stringr)
 require(quanteda)
-# require(SpeedReader)
+
 
 # set working directory (you will need to change this for your computer)
 setwd("~/Documents/RA_and_Consulting_Work/ISSR_Data_Management_Web_Scraping_2017/Data/Bill_Text")
@@ -42,7 +40,7 @@ doc_term_matrix <- quanteda::dfm(documents,
                                  stem = TRUE)
 
 # look at some of the vocabulary
-head(doc_term_matrix@Dimnames$features)
+head(doc_term_matrix@Dimnames$features, n = 100)
 
 # get column sums
 word_counts <- colSums(doc_term_matrix)
