@@ -53,27 +53,31 @@ print(clean_sentence)
 
 # Function to clean a block of text (several strings)
 Clean_Text_Block <- function(text){
-    if(length(text) <= 1){
+    if (length(text) <= 1) {
         # Check to see if there is any text at all with another conditional
-        if(length(text) == 0){
+        if (length(text) == 0) {
             cat("There was no text in this document! \n")
-            to_return <- list(num_tokens = 0, unique_tokens = 0, text = "")
-        }else{
+            to_return <- list(num_tokens = 0,
+                              unique_tokens = 0,
+                              text = "")
+        } else {
             # If there is , and only only one line of text then tokenize it
             clean_text <- Clean_String(text)
             num_tok <- length(clean_text)
             num_uniq <- length(unique(clean_text))
-            to_return <- list(num_tokens = num_tok, unique_tokens = num_uniq, text = clean_text)
+            to_return <- list(num_tokens = num_tok,
+                              unique_tokens = num_uniq,
+                              text = clean_text)
         }
-    }else{
+    } else {
         # Get rid of blank lines
         indexes <- which(text == "")
-        if(length(indexes) > 0){
+        if (length(indexes) > 0) {
             text <- text[-indexes]
         }
         # Loop through the lines in the text and use the append() function to
         clean_text <- Clean_String(text[1])
-        for(i in 2:length(text)){
+        for (i in 2:length(text)) {
             # add them to a vector
             clean_text <- append(clean_text,Clean_String(text[i]))
         }
@@ -81,7 +85,9 @@ Clean_Text_Block <- function(text){
         # named list object.
         num_tok <- length(clean_text)
         num_uniq <- length(unique(clean_text))
-        to_return <- list(num_tokens = num_tok, unique_tokens = num_uniq, text = clean_text)
+        to_return <- list(num_tokens = num_tok,
+                          unique_tokens = num_uniq,
+                          text = clean_text)
     }
     return(to_return)
 }
@@ -147,7 +153,7 @@ colnames(Doc_Term_Matrix) <- unique_words
 #' load the package and generate the document-term matrix
 require(quanteda)
 docs <- c(paste0(text,collapse = " "),paste0(text2,collapse = " "))
-doc_term_matrix <- dfm(docs, stem = FALSE)
+doc_term_matrix <- quanteda::dfm(docs, stem = FALSE)
 
 # find the additional terms captured by quanteda
 missing <- doc_term_matrix@Dimnames$features %in% colnames(Doc_Term_Matrix)
