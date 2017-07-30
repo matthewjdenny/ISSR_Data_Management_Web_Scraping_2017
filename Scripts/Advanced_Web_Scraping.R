@@ -17,6 +17,9 @@ library(stringr)
 # fields from a webpage:
 # go to this website and install the Selectorgadget java applet:
 # https://cran.r-project.org/web/packages/rvest/vignettes/selectorgadget.html
+#
+
+# https://www.congress.gov/members?pageSize=250&page=1
 
 
 # function to extract metadata on a legislator
@@ -33,7 +36,7 @@ extract_metadata <- function(text) {
     name <- paste0(chamber_name[-1], collapse = " ")
     # combine together in to a vector that can be row bound together. If the
     # member is a Senator, then district is NA.
-    if(chamber == "Senator") {
+    if (chamber == "Senator") {
         ret <- c(name, chamber,text[3], text[5], NA , text[7], text[8])
     } else {
         # deal with territories that do not have districts
@@ -50,7 +53,7 @@ extract_metadata <- function(text) {
 legislator_data <- NULL
 
 # get the total number of pages we will need to scrape
-pages <- ceiling(2181/250)
+pages <- ceiling(2240/250)
 for (i in 1:pages) {
     cat("Currently working on block",i,"of",pages,"\n")
     html <- read_html(paste("https://www.congress.gov/members?pageSize=250&page=",i,sep = ""))
@@ -66,7 +69,7 @@ for (i in 1:pages) {
     # loop through the list to extract metadata for each legislator
     cur_metadata <- NULL
     for (j in 1:(length(metadata_list)/3)) {
-        ind <- 3 * (j-1)+2
+        ind <- 3 * (j - 1) + 2
         text <- paste(html_text(metadata_list[[ind]]),
                       html_text(metadata_list[[ind+1]]), sep = "  ")
         cur_metadata <- rbind(cur_metadata,extract_metadata(text))
@@ -79,7 +82,7 @@ for (i in 1:pages) {
 
     # get every other entry since there are duplicates
     websites <- websites[seq(from = 1,
-                             to = length(websites),
+                             to = length(websites) - 1,
                              length.out = length(websites)/2)]
 
     # add on web pages
@@ -105,7 +108,7 @@ legislator_data <- data.frame(Name = legislator_data [,1],
                               stringsAsFactors = FALSE)
 
 # save the data
-save(legislator_data, file = "Legislator_Data_1929-2016.Rdata")
+save(legislator_data, file = "Legislator_Data_1929-2017.Rdata")
 
 
 ##################################################
@@ -116,7 +119,7 @@ save(legislator_data, file = "Legislator_Data_1929-2016.Rdata")
 # collected above. You will be asked to extend it.
 
 # reload in the data
-load("Legislator_Data_1929-2016.Rdata")
+load("Legislator_Data_1929-2017.Rdata")
 additional_legislator_data <- NULL
 
 # loop over each legislator's webpage
@@ -152,5 +155,45 @@ for (i in 1:nrow(legislator_data)) {
     # make sure we sleep for a full minute to prevent ourselves from being rate
     # limited
     Sys.sleep(6)
+}
+
+
+
+extract_metadata2 <- function(text) {
+    # replace newlines with nothing
+    text <- str_replace_all(text,"\\n","")
+    # split on two or more spaces
+    text <- str_split(text, "[\\s]{2,}")[[1]]
+
+    # find the lines with "Show more" or ""
+    inds <- which(text == "Show more" | text == "")
+
+    if (length(inds) > 0) {
+        text <- text[-inds]
+    }
+
+    # find all entries with a collapse or expand
+    inds <- grep("(expand|collapse)",text, value = TRUE)
+
+
+    # break up name to extract chamber and name
+    chamber_name <- str_split(text[1]," ")[[1]]
+    # first is chamber
+    chamber <- chamber_name[1]
+    # rest is name
+    name <- paste0(chamber_name[-1], collapse = " ")
+    # combine together in to a vector that can be row bound together. If the
+    # member is a Senator, then district is NA.
+    if (chamber == "Senator") {
+        ret <- c(name, chamber,text[3], text[5], NA , text[7], text[8])
+    } else {
+        # deal with territories that do not have districts
+        if (length(text) == 8) {
+            ret <- c(name, chamber,text[3], text[5],NA, text[7], text[8])
+        } else {
+            ret <- c(name, chamber,text[3], text[7], text[5], text[9], text[10])
+        }
+    }
+    return(ret)
 }
 
